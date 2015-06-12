@@ -1,0 +1,4 @@
+[package]
+name = "rustlike"
+version = "0.1.0"
+authors = ["Sean Hagar <rcix2010@gmail.com>"]
