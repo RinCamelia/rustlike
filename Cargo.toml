@@ -2,3 +2,24 @@
 name = "rustlike"
 version = "0.1.0"
 authors = ["Sean Hagar <rcix2010@gmail.com>"]
+
+[dependencies.piston]
+version = "*"
+
+[dependencies.pistoncore-input]
+version = "*"
+
+[dependencies.piston2d-graphics]
+version = "*"
+
+[dependencies.pistoncore-glutin_window]
+version = "*"
+
+[dependencies.piston2d-opengl_graphics]
+version = "*"
+
+[dependencies.button_controller]
+git = "https://github.com/PistonDevelopers/button_controller.git"
+
+[dependencies.piston2d-sprite]
+version = "*"
