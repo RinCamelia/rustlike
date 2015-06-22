@@ -1,13 +1,12 @@
 
 //-----------------------------
 
-use sprite::*;
+use texture_cache::TextureCache;
 use button_controller::ButtonController;
 use piston::event::*;
 use piston::input::{ Button, Key };
 use opengl_graphics::*;
-use std::rc::Rc;
-use std::path::Path;
+use graphics::Image;
 
 //-----------------------------
 
@@ -15,20 +14,21 @@ pub struct App {
     window_size: (f64, f64),
     gl: GlGraphics,
     input_manager: ButtonController,
-    player: Sprite<Texture>,
+    texture_cache: TextureCache,
+    player: Image
 }
 
 impl App {
     pub fn new(gl_version: OpenGL, window_size: (f64, f64)) -> App {
-        let tex = Path::new("./assets/Player.png");
-        let tex = Rc::new(Texture::from_path(&tex).unwrap());
-        let mut sprite = Sprite::from_texture(tex.clone());
-        sprite.set_position(window_size.0 / 2.0, window_size.1 / 2.0);
+
+        let mut tex_cache = TextureCache::new(String::from_str("./assets"));
+        let player_image = Image::new()
+
         App {
             window_size: window_size,
             gl: GlGraphics::new(gl_version),
             input_manager: ButtonController::new(),
-            player: sprite
+            texture_cache:
         }
     }
 
@@ -38,13 +38,9 @@ impl App {
         //the classic, courtesy XNA
         const CORNFLOWER_BLUE: [f32; 4] = [0.391, 0.584, 0.929, 1.0];
 
-        let sprite = &self.player;
 
         self.gl.draw(args.viewport(), |c, gl| {
             clear(CORNFLOWER_BLUE, gl);
-
-            let transform = c.transform.trans(0.0, 0.0);
-            sprite.draw(transform, gl);
         });
     }
 

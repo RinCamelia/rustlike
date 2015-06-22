@@ -1,7 +1,6 @@
-
+#![feature(collections)]
 //-----------------------------
 
-extern crate sprite;
 extern crate piston;
 extern crate graphics;
 extern crate glutin_window;
@@ -11,6 +10,7 @@ extern crate button_controller;
 //-----------------------------
 
 mod app;
+mod texture_cache;
 
 //-----------------------------
 
