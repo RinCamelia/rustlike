@@ -6,8 +6,6 @@ use button_controller::ButtonController;
 use piston::event::*;
 use piston::input::{ Button, Key };
 use opengl_graphics::*;
-use graphics::types::Rectangle;
-use graphics::Rectangle::*;
 use graphics::Image;
 
 //-----------------------------
@@ -23,8 +21,8 @@ pub struct App {
 impl App {
     pub fn new(gl_version: OpenGL, window_size: (f64, f64)) -> App {
 
-        let mut tex_cache = TextureCache::new(String::from_str("./assets"));
-        let player_image = Image::new().rect([0.0, 0.0, 16.0, 16.0]);
+        let tex_cache = TextureCache::new(String::from("./assets"));
+        let player_image = Image::new().rect([0.0, 0.0, 4.0, 4.0]);
 
         App {
             window_size: window_size,
@@ -41,12 +39,14 @@ impl App {
         //the classic, courtesy XNA
         const CORNFLOWER_BLUE: [f32; 4] = [0.391, 0.584, 0.929, 1.0];
         let player = &self.player;
-        let player_texture = self.texture_cache.get_asset(&String::from_str("Player.png"));
+        let player_texture = self.texture_cache.get_asset(&String::from("Player 4x.png"));
 
+        let draw_location_x = self.window_size.0 / 2.0;
+        let draw_location_y = self.window_size.1 / 2.0;
 
         self.gl.draw(args.viewport(), |c, gl| {
             clear(CORNFLOWER_BLUE, gl);
-            let transform = c.transform.trans(100.0, 100.0);
+            let transform = c.transform.trans(draw_location_x, draw_location_y);
             player.draw(player_texture, default_draw_state(), transform, gl);
         });
     }

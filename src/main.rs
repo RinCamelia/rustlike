@@ -1,4 +1,3 @@
-#![feature(collections)]
 //-----------------------------
 
 extern crate piston;
@@ -20,20 +19,22 @@ use piston::event::*;
 use glutin_window::GlutinWindow as Window;
 use opengl_graphics::OpenGL;
 
+static WINDOW_X_SIZE : usize = 128;
+static WINDOW_Y_SIZE : usize = 128;
+
 //-----------------------------
 
 fn main() {
     let opengl = OpenGL::_3_2;
-
     let window = Window::new(
         WindowSettings::new(
             "spinning-square",
-            [200, 200]
+            [WINDOW_X_SIZE as u32, WINDOW_Y_SIZE as u32]
         )
         .exit_on_esc(true)
     );
 
-    let mut app = App::new(opengl, (200.0, 200.0));
+    let mut app = App::new(opengl, (WINDOW_X_SIZE as f64, WINDOW_Y_SIZE as f64));
 
     for e in window.events() {
         if let Some(r) = e.render_args() {
