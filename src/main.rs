@@ -25,7 +25,6 @@ static WINDOW_Y_SIZE : usize = 128;
 //-----------------------------
 
 fn main() {
-    let opengl = OpenGL::_3_2;
     let window = Window::new(
         WindowSettings::new(
             "spinning-square",
@@ -34,7 +33,7 @@ fn main() {
         .exit_on_esc(true)
     );
 
-    let mut app = App::new(opengl, (WINDOW_X_SIZE as f64, WINDOW_Y_SIZE as f64));
+    let mut app = App::new(OpenGL::_3_2, (WINDOW_X_SIZE as f64, WINDOW_Y_SIZE as f64));
 
     for e in window.events() {
         if let Some(r) = e.render_args() {
