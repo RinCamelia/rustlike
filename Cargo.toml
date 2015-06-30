@@ -23,3 +23,6 @@ git = "https://github.com/PistonDevelopers/button_controller.git"
 
 [dependencies.piston2d-sprite]
 version = "*"
+
+[dependencies.vecmath]
+version = "*"

@@ -5,11 +5,13 @@ extern crate graphics;
 extern crate glutin_window;
 extern crate opengl_graphics;
 extern crate button_controller;
+extern crate vecmath;
 
 //-----------------------------
 
 mod app;
 mod texture_cache;
+mod tile_map;
 
 //-----------------------------
 
@@ -27,7 +29,7 @@ static WINDOW_Y_SIZE : usize = 128;
 fn main() {
     let window = Window::new(
         WindowSettings::new(
-            "spinning-square",
+            "rustlike",
             [WINDOW_X_SIZE as u32, WINDOW_Y_SIZE as u32]
         )
         .exit_on_esc(true)
