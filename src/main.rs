@@ -21,8 +21,8 @@ use piston::event::*;
 use glutin_window::GlutinWindow as Window;
 use opengl_graphics::OpenGL;
 
-static WINDOW_X_SIZE : usize = 128;
-static WINDOW_Y_SIZE : usize = 128;
+static WINDOW_X_SIZE : usize = 256;
+static WINDOW_Y_SIZE : usize = 256;
 
 //-----------------------------
 

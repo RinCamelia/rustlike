@@ -8,7 +8,7 @@ use graphics::default_draw_state;
 //todo: write a tilemap -> source rect converter, instead of directly converting TileStates into source rects
 
 #[derive(Debug, Clone, Copy)]
-enum TileState {
+pub enum TileState {
     Floor = 0,
     Wall = 1,
     Void = 2
@@ -21,11 +21,10 @@ pub struct TileMap {
     tile_size : Vector2<i32>,
     tile_asset : String,
     tile_map_size : Vector2<i32>,
-    texture_cache : TextureCache,
 }
 
 impl TileMap {
-    fn with_default(tile_asset : String, tile_map_size : Vector2<i32>, tile_size : Vector2<i32>, texture_cache : TextureCache) -> TileMap {
+    pub fn with_default(tile_asset : String, tile_map_size : Vector2<i32>, tile_size : Vector2<i32>) -> TileMap {
         let mut tile_states : Vec<Vec<TileState>> = Vec::with_capacity(tile_map_size[1] as usize);
         let mut tile_images : Vec<Vec<Image>> = Vec::with_capacity(tile_map_size[1] as usize);
 
@@ -40,9 +39,12 @@ impl TileMap {
         for y in 0..tile_map_size[1] {
             let mut tile_row_images : Vec<Image> = Vec::with_capacity(tile_map_size[0] as usize);
             for x in 0..tile_map_size[0] {
-                let tile_image = Image::new().rect([0.0, 0.0, tile_size[0] as f64, tile_size[1] as f64]).src_rect(TileMap::get_src_rect(tile_size, tile_states[x as usize][y as usize]));
+                let tile_image = Image::new()
+                            .rect([(x * tile_size[0]) as f64, (y * tile_size[1]) as f64, tile_size[0] as f64, tile_size[1] as f64])
+                            .src_rect(TileMap::get_src_rect(tile_size, tile_states[x as usize][y as usize]));
                 tile_row_images.push(tile_image);
             }
+            tile_images.push(tile_row_images);
         }
 
         TileMap {
@@ -51,7 +53,6 @@ impl TileMap {
             tile_images : tile_images,
             tile_asset : tile_asset,
             tile_map_size : tile_map_size,
-            texture_cache : texture_cache
         }
     }
 
@@ -72,20 +73,16 @@ impl TileMap {
         self.tile_images[x][y] = self.tile_images[x][y].src_rect(TileMap::get_src_rect(self.tile_size, state));
     }
 
-    pub fn render(&mut self, gl: GlGraphics, args: &RenderArgs, position : Vector2<f64>) {
-        let tilemap = self.texture_cache.get_asset(&self.tile_asset);
+    pub fn render(&mut self, gl: &mut GlGraphics, args: &RenderArgs, tex_cache: &mut TextureCache) {
+        let tilemap_tex = tex_cache.get_asset(&self.tile_asset);
         let tile_images = &self.tile_images;
-        let tile_size = &self.tile_size;
-        let tile_map_size = &self.tile_map_size;
 
         gl.draw(args.viewport(), |c, gl| {
-                let mut transform = c.transform.trans(position[0], position[1]);
+
                 for row in tile_images {
                     for tile in row {
-                        transform = transform.trans(tile_size[0] as f64, 0.0);
-                        tile.draw(tilemap, default_draw_state(), transform, gl);
+                        tile.draw(tilemap_tex, default_draw_state(), c.transform, gl);
                     }
-                    transform = transform.trans((-tile_size[0] * tile_map_size[0]) as f64, tile_size[1] as f64);
                 }
             });
     }

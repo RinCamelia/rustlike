@@ -15,14 +15,11 @@ impl TextureCache {
         }
     }
 
-    pub fn get_asset(&mut self, key : &String) -> &Texture {
-        if !self.cache.contains_key(key) {
-            self.load_asset(key);
-        }
+    pub fn get_asset(&self, key : &String) -> &Texture {
         self.cache.get(key).unwrap()
     }
 
-    fn load_asset(&mut self, key : &String) {
+    pub fn load_asset(&mut self, key : &String) {
         let full_path = self.base_path.join(key);
         let texture = Texture::from_path(full_path);
 
